@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
     [SerializeField]
     private float _speed = 5f;
@@ -20,6 +20,9 @@ public class Player : MonoBehaviour
     private bool _attacking = false;
     [SerializeField]
     private float _attackDelay = 0.875f;
+    [SerializeField]
+    private int _startingHealth = 5;
+    public int Health { get; set; }
 
     void Start()
     {
@@ -51,6 +54,7 @@ public class Player : MonoBehaviour
             Debug.LogError("Sword Arc Renderer is NULL");
         }
 
+        Health = _startingHealth;
     }
 
     void Update()
@@ -146,5 +150,15 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(_attackDelay);
         _attacking = false;
+    }
+
+    public void Damage()
+    {
+        Health--;
+        if (Health <= 0)
+        {
+            Health = 0;
+            Debug.Log(this.name + " is dead!");
+        }
     }
 }

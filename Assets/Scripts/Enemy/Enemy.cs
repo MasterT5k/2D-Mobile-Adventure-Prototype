@@ -44,7 +44,7 @@ public abstract class Enemy : MonoBehaviour
             if (_anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
             {
                 return;
-            } 
+            }
         }
 
         float distance = Vector3.Distance(transform.position, _currentPoint.position);
@@ -54,18 +54,12 @@ public abstract class Enemy : MonoBehaviour
             if (_currentPoint == _pointB)
             {
                 _currentPoint = _pointA;
-                if (_sprite != null)
-                {
-                    _sprite.flipX = true;
-                }
+                Flip();
             }
             else
             {
                 _currentPoint = _pointB;
-                if (_sprite != null)
-                {
-                    _sprite.flipX = false;
-                }
+                Flip();
             }
 
             if (_anim != null)
@@ -76,6 +70,30 @@ public abstract class Enemy : MonoBehaviour
         else
         {
             transform.position = Vector3.MoveTowards(transform.position, _currentPoint.position, _speed * Time.deltaTime);
+        }
+    }
+
+    protected virtual void Flip()
+    {
+        if (_currentPoint.position.x > transform.position.x)
+        {
+            if (_sprite != null)
+            {
+                if (_sprite.flipX != false)
+                {
+                    _sprite.flipX = false;                
+                }
+            }
+        }
+        else if (_currentPoint.position.x < transform.position.x)
+        {
+            if (_sprite != null)
+            {
+                if (_sprite.flipX != true)
+                {
+                    _sprite.flipX = true;
+                }
+            }
         }
     }
 }
