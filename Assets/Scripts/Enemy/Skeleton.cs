@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class Skeleton : Enemy, IDamageable
 {
-    public int Health { get => _health; set => _health = value; }
+    public int Health { get; set; }
+
+    protected override void Start()
+    {
+        base.Start();
+        Health = _health;
+    }
 
     protected override void Update()
     {
@@ -14,12 +20,26 @@ public class Skeleton : Enemy, IDamageable
     public void Damage()
     {
         Health--;
-        _anim.SetTrigger("Hit");
+        _isHit = true;
+        if (_anim != null)
+        {
+            _anim.SetTrigger("Hit");
+            _anim.SetBool("InCombat", true);
+        }
+
         if (Health <= 0)
         {
             Health = 0;
             Debug.Log(this.name + " is dead!");
-            Destroy(transform.parent.gameObject);
+            transform.GetComponent<Collider2D>().enabled = false;
+            StartCoroutine(DeathRoutine());
         }
+    }
+
+    private IEnumerator DeathRoutine()
+    {
+        _anim.SetBool("Dead", true);
+        yield return new WaitForSeconds(2f);
+        Destroy(transform.parent.gameObject);
     }
 }

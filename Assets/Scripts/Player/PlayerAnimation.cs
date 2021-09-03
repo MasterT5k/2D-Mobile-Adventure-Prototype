@@ -54,4 +54,12 @@ public class PlayerAnimation : MonoBehaviour
             _swordArcAnim.SetTrigger("Swing");
         }
     }
+
+    public void Death()
+    {
+        if (_anim != null)
+        {
+            _anim.SetTrigger("Dead");
+        }
+    }
 }

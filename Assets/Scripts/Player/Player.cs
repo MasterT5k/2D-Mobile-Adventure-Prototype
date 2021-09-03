@@ -22,6 +22,7 @@ public class Player : MonoBehaviour, IDamageable
     private float _attackDelay = 0.875f;
     [SerializeField]
     private int _startingHealth = 5;
+    private bool _isDead = false;
     public int Health { get; set; }
 
     void Start()
@@ -40,7 +41,10 @@ public class Player : MonoBehaviour, IDamageable
         }
         else
         {
-            _hitboxTrans = _spriteRenderer.transform.GetChild(0).transform;
+            if (_spriteRenderer.transform.childCount > 0)
+            {
+                _hitboxTrans = _spriteRenderer.transform.GetChild(0);
+            }
 
             if (_hitboxTrans == null)
             {
@@ -59,6 +63,11 @@ public class Player : MonoBehaviour, IDamageable
 
     void Update()
     {
+        if (_isDead == true)
+        {
+            return;
+        }
+
         CalulateMovement();
         if (_jumping == true)
         {
@@ -158,7 +167,16 @@ public class Player : MonoBehaviour, IDamageable
         if (Health <= 0)
         {
             Health = 0;
+            _isDead = true;
             Debug.Log(this.name + " is dead!");
+            StartCoroutine(DeathRoutine());
         }
+    }
+
+    private IEnumerator DeathRoutine()
+    {
+        _animScript.Death();
+        yield return new WaitForSeconds(2f);
+        UnityEditor.EditorApplication.ExitPlaymode();
     }
 }
