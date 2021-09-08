@@ -18,7 +18,7 @@ public abstract class Enemy : MonoBehaviour
     protected Animator _anim = null;
     protected SpriteRenderer _sprite = null;
 
-    [SerializeField]
+    protected bool _isDead = false;
     protected bool _isHit = false;
     [SerializeField]
     protected float _combatDistance = 2f;
@@ -50,12 +50,11 @@ public abstract class Enemy : MonoBehaviour
         {
             if (_sprite.transform.childCount > 0)
             {
-                _hitboxTrans = _sprite.transform.GetChild(0); 
-            }
-
-            if (_hitboxTrans == null)
-            {
-                Debug.LogError(this.name + " Hitbox Transform is NULL");
+                _hitboxTrans = _sprite.transform.GetChild(0);
+                if (_hitboxTrans == null)
+                {
+                    Debug.LogError(this.name + " Hitbox Transform is NULL");
+                }
             }
         }
     }
@@ -142,6 +141,24 @@ public abstract class Enemy : MonoBehaviour
                         _hitboxTrans.localPosition = new Vector3(-_hitboxTrans.localPosition.x, 0);
                     }
                 }
+            }
+        }
+    }
+
+    public void PlayerNearby(bool nearby)
+    {
+        if (nearby == true)
+        {
+            if (_anim != null)
+            {
+                _anim.SetBool("InCombat", true);
+            }
+        }
+        else
+        {
+            if (_anim != null)
+            {
+                _anim.SetBool("InCombat", false);
             }
         }
     }

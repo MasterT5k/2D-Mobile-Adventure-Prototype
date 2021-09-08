@@ -14,7 +14,10 @@ public class Skeleton : Enemy, IDamageable
 
     protected override void Update()
     {
-        Movement();
+        if (_isDead == false)
+        {
+            Movement(); 
+        }
     }
 
     public void Damage()
@@ -29,6 +32,7 @@ public class Skeleton : Enemy, IDamageable
 
         if (Health <= 0)
         {
+            _isDead = true;
             Health = 0;
             Debug.Log(this.name + " is dead!");
             transform.GetComponent<Collider2D>().enabled = false;
