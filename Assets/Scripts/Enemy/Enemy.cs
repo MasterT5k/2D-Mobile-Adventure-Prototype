@@ -147,19 +147,9 @@ public abstract class Enemy : MonoBehaviour
 
     public void PlayerNearby(bool nearby)
     {
-        if (nearby == true)
+        if (_anim != null)
         {
-            if (_anim != null)
-            {
-                _anim.SetBool("InCombat", true);
-            }
-        }
-        else
-        {
-            if (_anim != null)
-            {
-                _anim.SetBool("InCombat", false);
-            }
+            _anim.SetBool("InCombat", nearby);
         }
     }
 }

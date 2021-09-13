@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Spider : Enemy, IDamageable
 {
+    [SerializeField]
+    private GameObject _acidPrefab = null;
     public int Health { get; set; }
 
     protected override void Start()
@@ -39,5 +41,18 @@ public class Spider : Enemy, IDamageable
         _anim.SetBool("Dead", true);
         yield return new WaitForSeconds(2f);
         Destroy(transform.parent.gameObject);
+    }
+
+    public void Attack()
+    {
+        if (_acidPrefab != null)
+        {
+            GameObject obj = Instantiate(_acidPrefab, transform.position, Quaternion.identity);
+            AcidEffect acidScript = obj.GetComponent<AcidEffect>();
+            if (acidScript != null)
+            {
+                acidScript.SetMoveDirection(_sprite.flipX);
+            }
+        }
     }
 }

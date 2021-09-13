@@ -208,7 +208,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56aa957febf04e3418e57356c8d7f16b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _acidPrefab: {fileID: 717597524187134079, guid: 9718922cdf7ca1d4594a2401e0655f2b, type: 3}
 --- !u!1 &6670902304608625403
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,6 +286,7 @@ MonoBehaviour:
   _pointA: {fileID: 0}
   _pointB: {fileID: 0}
   _combatDistance: 2
+  _acidPrefab: {fileID: 717597524187134079, guid: 9718922cdf7ca1d4594a2401e0655f2b, type: 3}
 --- !u!50 &616968200
 Rigidbody2D:
   serializedVersion: 4

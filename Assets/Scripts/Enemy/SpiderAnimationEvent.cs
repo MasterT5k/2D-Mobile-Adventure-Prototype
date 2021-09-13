@@ -5,25 +5,22 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class SpiderAnimationEvent : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject _acidPrefab = null;
-    private SpriteRenderer _sprite = null;
+    private Spider _spider = null;
 
     private void Start()
     {
-        _sprite = GetComponent<SpriteRenderer>();
+        _spider = GetComponentInParent<Spider>();
+        if (_spider == null)
+        {
+            Debug.LogError("Spider script is NULL");
+        }
     }
 
     public void Fire()
     {
-        if (_acidPrefab != null)
+        if (_spider != null)
         {
-            GameObject obj = Instantiate(_acidPrefab, transform.position, Quaternion.identity);
-            AcidEffect acidScript = obj.GetComponent<AcidEffect>();
-            if (acidScript != null)
-            {
-                acidScript.SetMoveDirection(_sprite.flipX);
-            }
+            _spider.Attack();
         }
     }
 }
