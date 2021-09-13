@@ -24,6 +24,8 @@ public abstract class Enemy : MonoBehaviour
     protected float _combatDistance = 2f;
     protected Player _player = null;
     protected Transform _hitboxTrans = null;
+    [SerializeField]
+    protected GameObject _diamondPrefab = null;
 
     protected virtual void Start()
     {
@@ -150,6 +152,19 @@ public abstract class Enemy : MonoBehaviour
         if (_anim != null)
         {
             _anim.SetBool("InCombat", nearby);
+        }
+    }
+
+    protected void SpawnGem()
+    {
+        if (_diamondPrefab != null)
+        {
+            GameObject gemObj = Instantiate(_diamondPrefab, transform.position, Quaternion.identity);
+            Diamond diamondScript = gemObj.GetComponent<Diamond>();
+            if (diamondScript != null)
+            {
+                diamondScript.SetValue(_gems);
+            } 
         }
     }
 }

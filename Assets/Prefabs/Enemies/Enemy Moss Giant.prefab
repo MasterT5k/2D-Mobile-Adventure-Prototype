@@ -198,8 +198,8 @@ MonoBehaviour:
   _gems: 1
   _pointA: {fileID: 3412655861777230167}
   _pointB: {fileID: 3412655861065942763}
-  _isHit: 0
   _combatDistance: 2
+  _diamondPrefab: {fileID: 5009965469273403599, guid: 710688ac01c433e40ae6c20605dd2686, type: 3}
 --- !u!1 &3412655861777230166
 GameObject:
   m_ObjectHideFlags: 0

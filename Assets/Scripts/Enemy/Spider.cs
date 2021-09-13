@@ -33,6 +33,7 @@ public class Spider : Enemy, IDamageable
             Debug.Log(this.name + " is dead!");
             transform.GetComponent<Collider2D>().enabled = false;
             StartCoroutine(DeathRoutine());
+            SpawnGem();
         }
     }
 

@@ -286,6 +286,7 @@ MonoBehaviour:
   _pointA: {fileID: 0}
   _pointB: {fileID: 0}
   _combatDistance: 2
+  _diamondPrefab: {fileID: 5009965469273403599, guid: 710688ac01c433e40ae6c20605dd2686, type: 3}
   _acidPrefab: {fileID: 717597524187134079, guid: 9718922cdf7ca1d4594a2401e0655f2b, type: 3}
 --- !u!50 &616968200
 Rigidbody2D:

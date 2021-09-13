@@ -23,6 +23,7 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField]
     private int _startingHealth = 5;
     private bool _isDead = false;
+    private int _gems = 0;
     public int Health { get; set; }
 
     void Start()
@@ -171,6 +172,12 @@ public class Player : MonoBehaviour, IDamageable
             Debug.Log(this.name + " is dead!");
             StartCoroutine(DeathRoutine());
         }
+    }
+
+    public void UpdateGems(int amount)
+    {
+        _gems += amount;
+        Debug.Log("Current Gems: " + _gems);
     }
 
     private IEnumerator DeathRoutine()
