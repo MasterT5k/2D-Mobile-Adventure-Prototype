@@ -34,7 +34,7 @@ public class Skeleton : Enemy, IDamageable
         {
             _isDead = true;
             Health = 0;
-            Debug.Log(this.name + " is dead!");
+            //Debug.Log(this.name + " is dead!");
             transform.GetComponent<Collider2D>().enabled = false;
             StartCoroutine(DeathRoutine());
             SpawnGem();
