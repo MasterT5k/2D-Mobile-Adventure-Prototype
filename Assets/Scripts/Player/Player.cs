@@ -179,6 +179,11 @@ public class Player : MonoBehaviour, IDamageable
         _gems += amount;
         Debug.Log("Current Gems: " + _gems);
     }
+    
+    public int GetCemCount()
+    {
+        return _gems;
+    }
 
     private IEnumerator DeathRoutine()
     {
