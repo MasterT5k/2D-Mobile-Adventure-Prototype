@@ -29,21 +29,12 @@ public class ShopKeeper : MonoBehaviour
                 _player = other.GetComponent<Player>(); 
             }
 
-            if (_player != null)
-            {
-                UIManager.Instance.OpenShop(_player.GetCemCount());
-            }
-
             if (_shopPanel != null)
             {
                 _shopPanel.SetActive(true);
             }
 
-            if (_currentItemSelection != null)
-            {
-                _currentItemSelection = null;
-                _currentItemCost = 0;
-            }
+            ClearItemSelection();
         }
     }
 
@@ -84,8 +75,20 @@ public class ShopKeeper : MonoBehaviour
             if (gems >= _currentItemCost)
             {
                 _player.UpdateGems(-_currentItemCost);
-                UIManager.Instance.OpenShop(_player.GetCemCount());
                 Debug.Log("Purchased: " + _currentItemSelection.GetItemName());
+
+                Button button = _currentItemSelection.transform.GetComponentInChildren<Button>();
+                if (button != null)
+                {
+                    button.interactable = false;
+                }
+
+                if (_currentItemSelection.GetItemID() == 2)
+                {
+                    GameManager.Instance._hasKeyToCastle = true;
+                }
+
+                ClearItemSelection();
             }
             else
             {
@@ -93,6 +96,8 @@ public class ShopKeeper : MonoBehaviour
                 {
                     _shopPanel.SetActive(false);
                 }
+
+                ClearItemSelection();
                 Debug.Log("Come back when you get more Gems.");
             }
         }
@@ -100,5 +105,16 @@ public class ShopKeeper : MonoBehaviour
         {
             Debug.Log("Select an Item to buy.");
         }
+    }
+
+    private void ClearItemSelection()
+    {
+        if (_currentItemSelection != null)
+        {
+            _currentItemSelection = null;
+            _currentItemCost = 0;
+        }
+
+        UIManager.Instance.ClearShopSelection();
     }
 }

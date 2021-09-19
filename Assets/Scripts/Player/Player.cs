@@ -21,7 +21,7 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField]
     private float _attackDelay = 0.875f;
     [SerializeField]
-    private int _startingHealth = 5;
+    private int _startingHealth = 4;
     private bool _isDead = false;
     private int _gems = 0;
     public int Health { get; set; }
@@ -60,6 +60,9 @@ public class Player : MonoBehaviour, IDamageable
         }
 
         Health = _startingHealth;
+
+        UIManager.Instance.UpdateGemCount(_gems);
+        UIManager.Instance.UpdateHealthBar(Health);
     }
 
     void Update()
@@ -164,6 +167,11 @@ public class Player : MonoBehaviour, IDamageable
 
     public void Damage()
     {
+        if (_isDead == true)
+        {
+            return;
+        }
+
         Health--;
         if (Health <= 0)
         {
@@ -172,12 +180,13 @@ public class Player : MonoBehaviour, IDamageable
             Debug.Log(this.name + " is dead!");
             StartCoroutine(DeathRoutine());
         }
+        UIManager.Instance.UpdateHealthBar(Health);
     }
 
     public void UpdateGems(int amount)
     {
         _gems += amount;
-        Debug.Log("Current Gems: " + _gems);
+        UIManager.Instance.UpdateGemCount(_gems);
     }
     
     public int GetCemCount()

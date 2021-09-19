@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,22 +18,34 @@ public class UIManager : MonoBehaviour
     }
 
     [SerializeField]
-    private Text _playerGemCountText = null;
+    private Text _gemCountText = null;
+    [SerializeField]
+    private Text _shopGemCountText = null;
     [SerializeField]
     private Image _selectImage = null;
+    [SerializeField]
+    private Transform _healthBar = null;
+    private List<Image> _healthUnits = new List<Image>();
 
     private void Awake()
     {
         _instance = this;
+
+        if (_healthBar != null)
+        {
+            for (int i = 0; i < _healthBar.childCount; i++)
+            {
+                Image image = _healthBar.GetChild(i).GetComponent<Image>();
+                if (image != null)
+                {
+                    _healthUnits.Add(image);
+                }
+            }
+        }
     }
 
-    public void OpenShop(int gemCount)
+    public void ClearShopSelection()
     {
-        if (_playerGemCountText != null)
-        {
-            _playerGemCountText.text = gemCount + "G"; 
-        }
-
         if (_selectImage != null)
         {
             _selectImage.gameObject.SetActive(false);
@@ -48,6 +59,42 @@ public class UIManager : MonoBehaviour
             _selectImage.gameObject.SetActive(true);
             _selectImage.rectTransform.sizeDelta = rowRect.sizeDelta;
             _selectImage.rectTransform.anchoredPosition = rowRect.anchoredPosition; 
+        }
+    }
+
+    public void UpdateGemCount(int gems)
+    {
+        if (_shopGemCountText != null)
+        {
+            _shopGemCountText.text = gems + "G";
+        }
+
+        if (_gemCountText != null)
+        {
+            _gemCountText.text = gems.ToString();
+        }
+    }
+
+    public void UpdateHealthBar(int health)
+    {
+        if (health < 0)
+        {
+            health = 0;
+        }
+
+        if (_healthUnits.Count > 0)
+        {
+            for (int i = 0; i < _healthUnits.Count; i++)
+            {
+                if (i >= health)
+                {
+                    _healthUnits[i].color = Color.clear;
+                }
+                else
+                {
+                    _healthUnits[i].color = Color.white;
+                }
+            }
         }
     }
 }
