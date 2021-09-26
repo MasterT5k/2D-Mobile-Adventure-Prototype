@@ -1,8 +1,9 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(Collider2D), typeof(StarterAssetsInputs))]
 public class Player : MonoBehaviour, IDamageable
 {
     [SerializeField]
@@ -24,6 +25,8 @@ public class Player : MonoBehaviour, IDamageable
     private int _startingHealth = 4;
     private bool _isDead = false;
     private int _gems = 0;
+    private StarterAssetsInputs _input = null;
+
     public int Health { get; set; }
 
     void Start()
@@ -59,6 +62,7 @@ public class Player : MonoBehaviour, IDamageable
             Debug.LogError("Sword Arc Renderer is NULL");
         }
 
+        _input = GetComponent<StarterAssetsInputs>();
         Health = _startingHealth;
 
         UIManager.Instance.UpdateGemCount(_gems);
@@ -82,17 +86,22 @@ public class Player : MonoBehaviour, IDamageable
             }
         }
 
-        if (Input.GetMouseButtonDown(0) && CheckGrounded() == true && _attacking == false)
+        if (_input.attack == true && CheckGrounded() == true && _attacking == false)
         {
             _animScript.Attack();
             _attacking = true;
+            _input.attack = false;
             StartCoroutine(AttackDelay());
+        }
+        else if (_input.attack == true)
+        {
+            _input.attack = false;
         }
     }
 
     void CalulateMovement()
     {
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float horizontalInput = _input.move.normalized.x;
         Vector2 velocity = new Vector2(horizontalInput * _speed, _rb.velocity.y);
 
         if (_animScript != null)
@@ -100,11 +109,16 @@ public class Player : MonoBehaviour, IDamageable
             _animScript.Move(Mathf.Abs(horizontalInput));
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && CheckGrounded())
+        if (_input.jump == true && CheckGrounded() == true)
         {
             velocity.y = _jumpForce;
             _animScript.Jumping(true);
+            _input.jump = false;
             StartCoroutine(JumpCheckDelay());
+        }
+        else if (_input.jump == true)
+        {
+            _input.jump = false;
         }
 
         if (_rb != null)
